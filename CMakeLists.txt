@@ -2,7 +2,7 @@ project(CppUnitLite2)
 cmake_minimum_required(VERSION 2.8)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -Wall -fno-rtti")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -Wall")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 set(SRC
