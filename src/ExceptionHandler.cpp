@@ -5,6 +5,9 @@
 #include "Failure.h"
 #include "TestException.h"
 
+#if _MSC_VER >= 1400
+#   define snprintf(buf, size, format, ...) _snprintf_s(buf, size, _TRUNCATE, format, __VA_ARGS__)
+#endif
 
 
 namespace ExceptionHandler {
@@ -30,7 +33,7 @@ void Handle (TestResult& result, const TestException& exception,
              const char* testname, const char* filename, int linenumber )
 {
     char msg[4096];
-    sprintf( msg, "Raised exception %s from:\n  %s(%i)", exception.message, exception.file, exception.line );
+    snprintf(msg, sizeof(msg), "Raised exception %s from:\n  %s(%i)", exception.message, exception.file, exception.line);
     result.AddFailure (Failure (msg, testname, filename, linenumber));
 }
 
@@ -41,7 +44,7 @@ void Handle (TestResult& result, const char* condition,
         throw;
         
     char msg[1024] = "Unhandled exception ";
-    strcat(msg, condition);
+    strncat(msg, condition, sizeof(msg)-32);
     result.AddFailure (Failure (msg, testname, filename, linenumber));
 }
 
